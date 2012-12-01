@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <script src="/javascripts/dojo-release-1.6.1/dojo/dojo.js"></script>
+        <script>
+                       
+           function animate(){
+            
+              var canvas = document.getElementById('myCanvas');
+              var context = canvas.getContext('2d');
+              
+              for(var i = 0; i < 280; i = i + 0.1){
+                context.fillStyle = "rgb(255,255,255)";
+                context.fillRect(0,0,300,300);
+                context.fillStyle = "rgb(0,0,255)"; 
+                context.font = "bold 14px sans-serif";
+                context.fillText("Hello Canvas.", i, i);
+              }
+          }
+          
+          dojo.ready(function(){
+            dojo.connect(dojo.byId('startButton'),'onclick',this,function(){
+                animate();
+            });
+          });
+            
+        </script>
+    </head>
+    <body>
+        <canvas id='myCanvas' width='300' height='300' ></canvas>
+        <script type='text/javascript'>  
+          
+        </script>
+        <button id="startButton">Start</button>
+    </body>
+</html>

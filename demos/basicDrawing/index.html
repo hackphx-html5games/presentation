@@ -1,0 +1,21 @@
+<html>
+	<head>
+	<script type='text/javascript' src='/javascripts/dojo-release-1.6.1/dojo/dojo.js'></script>
+	</head>
+    <body>
+        <canvas id='myCanvas' width='300' height='300' ></canvas>
+        <script type='text/javascript'>  
+          var img = new Image();
+          dojo.connect(img,'onload',function(){
+	          var canvas = dojo.byId('myCanvas'); 
+	          var context = canvas.getContext('2d');
+	          
+	          context.fillStyle = "#000044"; 
+	          context.fillRect(0,0,canvas.width,canvas.height);
+	          
+	          context.drawImage(img,50,120);
+          });
+          img.src = 'images/dojo_white.png';          
+        </script>
+    </body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8 />
+    <title>WebRTC Demo</title>
+    <style>
+      button {
+        font-size: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <video id="myVideo" autoplay></video>
+    <button id="button">Click</button>
+    <canvas id="canvas" height="480" width="640"></canvas>
+    <button id="button2">Click2</button>
+    <img id="save" />
+    <script>
+
+    var context, canvas;
+
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
+          navigator.mozGetUserMedia || navigator.msGetUserMedia;
+      window.URL = window.URL || window.webkitURL;
+
+
+      var video;
+      navigator.getUserMedia({
+        video: true
+      }, function(localMediaStream) {
+        video = document.getElementById("myVideo");
+        video.src = window.URL.createObjectURL(localMediaStream);
+      }, function(error) {
+        console.log(error);
+      });
+
+      window.addEventListener('load', function(e){
+        document.getElementById('button').addEventListener('click', function(e){
+          var canvas = document.getElementById('canvas');
+          var context = canvas.getContext('2d');
+
+          context.drawImage(video, 0, 0);
+        });
+
+        document.getElementById('button2').addEventListener('click', function(e){
+          canvas = document.getElementById('canvas');
+          context = canvas.getContext('2d');
+
+          var imgData = canvas.toDataURL();
+
+          var img = document.getElementById('save');
+          img.src = imgData;
+
+          animate();
+        });
+      });
+
+
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,92 @@
+<html>
+    <head>
+        <script src="/javascripts/dojo-release-1.6.1/dojo/dojo.js" djConfig="baseUrl: '/javascripts/', modulePaths: {mwe: 'mwe'} "></script>
+
+        
+        <script>
+        dojo.require('mwe.GameCore');
+        dojo.require('mwe.Sprite');
+        dojo.require('mwe.ResourceManager');
+        dojo.require('mwe.GameAction');
+        
+		var game,resourceManager,swi,sprite;
+        
+          dojo.ready(function(){
+        	  
+        	  resourceManager = new mwe.ResourceManager({
+        			imageDir: 'images/'
+        		});
+        	  swi = resourceManager.loadImage('walking.png');
+        	  
+        	  sprite = new mwe.Sprite({x:100,y:100, w:96, h: 96, dx:0, dy: 0,
+      		        xStartVelocity: 0.5, yStartVelocity: 0.5
+      		        });
+        	  sprite.anim = new mwe.Animation().createFromTile(8,100,swi,96,96);
+        
+	        game = new mwe.GameCore({
+				canvasId: 'myCanvas',
+				update : function(elapsedTime){
+					sprite.update(elapsedTime);
+				},
+				draw: function(context){
+				  context.clearRect(0,0,this.width,this.height);
+	              //draw square
+	              sprite.drawCurrentFrame(context);
+				},
+				initInput: function(im) {  			  
+			        this.moveLeft = new mwe.GameAction({name:"moveLeft"});
+			        this.moveRight = new mwe.GameAction({name:"moveRight"});
+			        this.moveUp = new mwe.GameAction({name:"moveUp"});
+			        this.moveDown = new mwe.GameAction({name:"moveDown"});
+			        
+			        im.mapToKey(this.moveLeft, dojo.keys.LEFT_ARROW);
+			        im.mapToKey(this.moveRight, dojo.keys.RIGHT_ARROW);
+			        im.mapToKey(this.moveUp, dojo.keys.UP_ARROW);
+			        im.mapToKey(this.moveDown, dojo.keys.DOWN_ARROW);  		        
+			    },
+			    handleInput: function(im){
+			    	if(this.moveLeft.isPressed()){
+						sprite.dx = Math.abs(sprite.xStartVelocity) * -1;
+					}
+					else if(this.moveRight.isPressed()){
+						sprite.dx = Math.abs(sprite.xStartVelocity);
+					}
+					else{
+						sprite.dx = 0;
+					}
+	
+					if(this.moveUp.isPressed()){
+						sprite.dy = Math.abs(sprite.yStartVelocity) * -1;	
+					}
+					else if(this.moveDown.isPressed()){
+						sprite.dy = Math.abs(sprite.yStartVelocity);
+					}
+					else{
+						sprite.dy = 0;
+					}
+			    }
+			});
+        	  
+        	  
+        	  
+        	  
+        	  
+        	  
+        	  
+        	  
+            dojo.connect(dojo.byId('startButton'),'onclick',this,function(){
+                game.run();
+            });
+          });
+            
+        </script>
+        
+    </head>
+    <body>
+        <canvas id='myCanvas' width='300' height='300' style="background-color: #888888"  ></canvas>
+        <script type='text/javascript'>  
+          
+        </script>
+        <button id="startButton">Start</button>
+    </body>
+</html>

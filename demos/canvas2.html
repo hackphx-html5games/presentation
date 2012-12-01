@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8 />
+    <title>Canvas Demo #2</title>
+    <meta name="viewport" content="width=device-width">
+    <style>
+      button {
+        font-size: 30px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <button id="draw">Draw!</button>
+    <canvas id="myCanvas" />
+
+    <script>
+      var canvas = document.getElementById('myCanvas');
+
+      canvas.setAttribute('height', '450');
+      canvas.setAttribute('width', '450');
+
+      window.addEventListener('load', function(e){
+        document.getElementById('draw').addEventListener('click', function(e){
+          var context = canvas.getContext('2d');
+          // Load an image
+          var img = new Image();
+          img.onload = function(){
+            context.drawImage(img, 0, 0);
+          };
+          img.src = "../images/cheese.jpg";
+        });
+      });
+    </script>
+
+  </body>
+</html>

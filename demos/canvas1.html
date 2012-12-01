@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8 />
+    <title>Canvas Demo #1</title>
+    <meta name="viewport" content="width=device-width">
+    <style>
+      button {
+        font-size: 30px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <button id="draw">Draw!</button>
+    <canvas id="myCanvas" />
+
+    <script>
+      var canvas = document.getElementById('myCanvas');
+
+      canvas.setAttribute('height', '450');
+      canvas.setAttribute('width', '450');
+
+      window.addEventListener('load', function(e){
+        document.getElementById('draw').addEventListener('click', function(e){
+          var context = canvas.getContext('2d');
+          context.fillStyle = '#10B7FB';
+          context.fillRect(0,0,450,450);
+
+          context.strokeStyle = '#B1E3FE';
+          context.lineWidth = 20;
+          context.strokeRect(450 / 4, 450 / 4, 450 / 2, 450 / 2);
+        });
+      });
+    </script>
+
+  </body>
+</html>

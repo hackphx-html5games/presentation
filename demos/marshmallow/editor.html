@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--
+Copyright 2011 Luis Montes
+
+http://azprogrammer.com
+-->
+<html>
+  <head>
+  <link rel="chrome-webstore-item"
+    href="https://chrome.google.com/webstore/detail/acjijhekaonkmkedfdabbageicfhhlgo">
+    <meta charset="utf-8">
+    <title>Box2D physics Editor</title>
+    <link rel="author" href="http://profiles.google.com/monteslu">
+        <script src="scripts/dojo.js" djConfig="baseUrl: 'scripts/', modulePaths: {mwe: 'mwe'} "></script>
+		<script src="scripts/thirdparty/Box2d.min.js"></script>
+		<script src="scripts/thirdparty/stats.js"></script>
+    <script src="scripts/editor.js"></script>
+    <style>
+    body {
+      -webkit-transform: translateZ(0);
+    }
+    </style>
+  </head>
+  <body>
+   <center>
+    <br><br><br><br>
+    Drag a ball with the mouse, then release.  You can also drag a ball back to table after it goes in a pocket.<br><br>
+    <button id="crazyBtn">CRAZY Mode!</button>&nbsp;&nbsp;&nbsp;<button id="rack8Btn">Rack 8 ball</button>&nbsp;&nbsp;&nbsp;<button id="rack9Btn">Rack 9 ball</button>&nbsp;&nbsp;&nbsp;<button id="clearBtn">Clear table</button>&nbsp;&nbsp;&nbsp;shots: <span id="shotsDisp" style="font-weight: bold;">0</span>
+    <br><br>
+    <canvas id="canvas" width="700" height="440" style="border: 1px solid black;"></canvas>
+    <br><span id="xdisp"></span>,<span id="ydisp"></span>
+    <br>
+    Written by Luis Montes.  Follow me on twitter: <a href="http://twitter.com/monteslu" target="_blank">@monteslu</a><br><br>
+    </center>
+
+	<form id="toolForm" onsubmit="return false;">
+    polygon<input type="radio" name="tool" value="polygon" checked="checked">&nbsp;&nbsp;&nbsp;polygonZone<input type="radio" name="tool" value="polygonZone" checked="checked">&nbsp;&nbsp;&nbsp;rectangle<input type="radio" name="tool" value="rectangle">&nbsp;&nbsp;&nbsp;rectangleZone<input type="radio" name="tool" value="rectangleZone">&nbsp;&nbsp;&nbsp;circle<input type="radio" name="tool" value="circle">&nbsp;&nbsp;&nbsp;circleZone<input type="radio" name="tool" value="circleZone">&nbsp;&nbsp;&nbsp;None<input type="radio" name="tool" value="none">&nbsp;&nbsp;&nbsp;
+    <button id="shapeDone">done</button> show hidden<input type="checkbox" checked="checked" id="showHidden">
+    <button id="load">Load JSON</button>
+<!--     <span id="radiusSpan" style="display:none;">radius <input type="text" value="50" id="radiusText"></span> -->
+    <br>
+    <textarea rows="10" cols="120" id="output"></textarea>
+    </form>
+  </body>
+</html>

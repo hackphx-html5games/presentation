@@ -1,0 +1,178 @@
+
+<!doctype html>
+
+<!--
+
+Just fooling around with webGL,threeJS, and dojo. And building on Paul Lewis' excellent tutorial:
+http://www.aerotwist.com/lab/getting-started-with-three-js/
+-->
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Sample Three.js</title>
+		
+			 <script src="/javascripts/dojo-release-1.6.1/dojo/dojo.js" djConfig="parseOnLoad: true"></script>
+	 <script src="/javascripts/thirdparty/stats.js"></script>
+    <style type="text/css">
+        @import "/javascripts/dojo-release-1.6.1/dijit/themes/claro/claro.css";                   
+	</style>
+ <script src="/javascripts/thirdparty/Three.js"></script>
+		<style>
+				
+			#container {
+				background: #BADA55;
+				background-image: url(clouds.png);
+				width: 640px;
+				height: 480px;
+			}
+		</style>
+	</head>
+	<body class="claro">
+		<center>
+		<div id="container">		
+			
+		</div>
+<br> 
+camera.position.z: <span id="cameraPositionDisplay">300</span><br><span id="cameraSlider" dojoType="dijit.form.HorizontalSlider" value="300" minimum="0" maximum="1000" intermediateChanges="true" showButtons="false" style="width:400px;"></span>
+sphere.scale.x: <span id="sphereScaleXDisplay">1</span><br><span id="sphereScaleX" dojoType="dijit.form.HorizontalSlider" value="1" minimum="0.1" maximum="10" intermediateChanges="true" showButtons="false" style="width:400px;"></span>
+sphere.scale.y: <span id="sphereScaleYDisplay">1</span><br><span id="sphereScaleY" dojoType="dijit.form.HorizontalSlider" value="1" minimum="0.1" maximum="10" intermediateChanges="true" showButtons="false" style="width:400px;"></span>
+sphere.scale.z: <span id="sphereScaleZDisplay">1</span><br><span id="sphereScaleZ" dojoType="dijit.form.HorizontalSlider" value="1" minimum="0.1" maximum="10" intermediateChanges="true" showButtons="false" style="width:400px;"></span>
+sphere.rotation.x: <span id="sphereRotationXDisplay">0</span><br><span id="sphereRotationX" dojoType="dijit.form.HorizontalSlider" value="0" minimum="0" maximum="6.283" intermediateChanges="true" showButtons="false" style="width:400px;"></span>                
+sphere.rotation.y: <span id="sphereRotationYDisplay">0</span><br><span id="sphereRotationY" dojoType="dijit.form.HorizontalSlider" value="0" minimum="0" maximum="6.283" intermediateChanges="true" showButtons="false" style="width:400px;"></span>                
+sphere.rotation.z: <span id="sphereRotationZDisplay">0</span><br><span id="sphereRotationZ" dojoType="dijit.form.HorizontalSlider" value="0" minimum="0" maximum="6.283" intermediateChanges="true" showButtons="false" style="width:400px;"></span>                
+<br>		
+	
+	</center>
+	</body>
+
+	
+	<script type="text/javascript">
+	dojo.require('dijit.form.HorizontalSlider');
+	
+	// set the scene size
+	var WIDTH = 640,
+	    HEIGHT = 480;
+
+	// set some camera attributes
+	var VIEW_ANGLE = 45,
+	    ASPECT = WIDTH / HEIGHT,
+	    NEAR = 0.1,
+	    FAR = 10000;
+
+	var renderer,camera,scene,pointLight,sphere;
+	var cameraSlider;
+
+	dojo.addOnLoad(function(){	
+
+	
+		// get the DOM element to attach to
+		// - assume we've got jQuery to hand
+		var container = dojo.byId('container');
+	
+		// create a WebGL renderer, camera
+		// and a scene
+		renderer = new THREE.WebGLRenderer();
+		camera = new THREE.Camera(VIEW_ANGLE,ASPECT, NEAR, FAR  );
+		scene = new THREE.Scene();
+	
+		// the camera starts at 0,0,0 so pull it back
+		camera.position.z = 300;
+	
+		// start the renderer
+		renderer.setSize(WIDTH, HEIGHT);
+	
+		// attach the render-supplied DOM element
+		dojo.place(renderer.domElement,container);
+	
+		// create the sphere's material
+		var sphereMaterial = new THREE.MeshLambertMaterial(
+		{
+		    color: 0xCC0000
+		});
+	
+		// set up the sphere vars
+		var radius = 50, segments = 16, rings = 16;
+	
+		// create a new mesh with sphere geometry -
+		// we will cover the sphereMaterial next!
+		sphere = new THREE.Mesh(
+		   new THREE.Sphere(radius, segments, rings),
+		   sphereMaterial);
+	
+		// add the sphere to the scene
+		scene.addChild(sphere);
+	
+		// create a point light
+		pointLight = new THREE.PointLight( 0xFFFFFF );
+	
+		// set its position
+		pointLight.position.x = 10;
+		pointLight.position.y = 50;
+		pointLight.position.z = 130;
+	
+		// add to the scene
+		scene.addLight(pointLight);
+	
+		// draw!
+		renderer.render(scene, camera);
+
+		cameraSlider = dijit.byId('cameraSlider');
+		dojo.connect(cameraSlider,'onChange',function(){
+			var camZ = cameraSlider.get('value');
+			dojo.byId('cameraPositionDisplay').innerHTML = camZ;
+			camera.position.z = camZ; 
+			renderer.render(scene, camera);
+		});
+
+		var sphereScaleX = dijit.byId('sphereScaleX');
+		dojo.connect(sphereScaleX,'onChange',function(){
+			var sc = sphereScaleX.get('value');
+			dojo.byId('sphereScaleXDisplay').innerHTML = sc;
+			sphere.scale.x = sc; 
+			renderer.render(scene, camera);
+		});
+		var sphereScaleY = dijit.byId('sphereScaleY');
+		dojo.connect(sphereScaleY,'onChange',function(){
+			var sc = sphereScaleY.get('value');
+			dojo.byId('sphereScaleYDisplay').innerHTML = sc;
+			sphere.scale.y = sc; 
+			renderer.render(scene, camera);
+		});
+		
+		var sphereScaleZ = dijit.byId('sphereScaleZ');
+		dojo.connect(sphereScaleZ,'onChange',function(){
+			var sc = sphereScaleZ.get('value');
+			dojo.byId('sphereScaleZDisplay').innerHTML = sc;
+			sphere.scale.z = sc; 
+			renderer.render(scene, camera);
+		});
+
+		var sphereRotationX = dijit.byId('sphereRotationX');
+		dojo.connect(sphereRotationX,'onChange',function(){
+			var sr = sphereRotationX.get('value');
+			dojo.byId('sphereRotationXDisplay').innerHTML = sr;
+			sphere.rotation.x = sr; 
+			renderer.render(scene, camera);
+		});
+		var sphereRotationY = dijit.byId('sphereRotationY');
+		dojo.connect(sphereRotationY,'onChange',function(){
+			var sr = sphereRotationY.get('value');
+			dojo.byId('sphereRotationYDisplay').innerHTML = sr;
+			sphere.rotation.y = sr; 
+			renderer.render(scene, camera);
+		});
+		var sphereRotationZ = dijit.byId('sphereRotationZ');
+		dojo.connect(sphereRotationZ,'onChange',function(){
+			var sr = sphereRotationZ.get('value');
+			dojo.byId('sphereRotationZDisplay').innerHTML = sr;
+			sphere.rotation.z = sr; 
+			renderer.render(scene, camera);
+		});
+
+
+
+
+	});
+	</script>
+
+</html>

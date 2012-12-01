@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8 />
+    <title>WebRTC Demo</title>
+    <style>
+      button {
+        font-size: 30px;
+      }
+    </style>
+    <script src="../js/three.min.js"></script>
+    <script src="../js/dojo.js" djConfig="baseUrl: '../js/', modulePaths: {mwe: 'mwe'} "></script>
+    <script src="../js/thirdparty/Box2d.min.js"></script>
+    <script src="../js/thirdparty/stats.js"></script>
+    <script src="../js/cannon.js"></script>
+  </head>
+  <body>
+    <div style="text-align: center;">
+    <video id="myVideo" autoplay style="display: none;"></video>    
+    <canvas id="canvas" height="200" width="150" style="border: 1px solid black;"></canvas><br>
+    <button id="button">Click</button><br>
+    <canvas id="canvas2" style="border: 1px solid black; display:none;"  height="200" width="150"></canvas>
+    <canvas id="canvasOff" style="display:none;"></canvas>
+    <canvas id="canvasOff2" style="display:none; border: 1px solid blue;"></canvas><br>
+    <canvas id="canvasGame" width="620" height="590" style="border: 1px solid black; display: none;"></canvas>
+    <img id="save" />
+  </div>
+    <script>
+
+
+
+
+
+    //WARNING!!!!
+    // the following code was just hacked together and is sloppy as hell.
+
+
+
+
+
+
+
+    //There.  You've been warned.
+
+
+
+
+
+
+    var context, canvas, canvasOff, contextOff, canvas2, context2, canvasOff2, contextOff2;
+
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
+          navigator.mozGetUserMedia || navigator.msGetUserMedia;
+      window.URL = window.URL || window.webkitURL;
+
+
+      var video, videoW, videoH;
+      var videoPaintW, videoPaintH, videoPaintX, videoPaintY;
+      var imgData;
+
+      var canvasW = 150;
+      var canvasH = 200;
+      var shrinkAspect = 7;
+
+      var imgCaptured = false;
+      var imgRatio, imgAspectRatio;
+
+      navigator.getUserMedia({
+        video: true
+      }, function(localMediaStream) {
+        video = document.getElementById("myVideo");
+        video.src = window.URL.createObjectURL(localMediaStream);
+        canvas = document.getElementById('canvas');
+        context = canvas.getContext('2d');
+        canvasOff = document.getElementById('canvasOff');
+        contextOff = canvasOff.getContext('2d');
+        canvas2 = document.getElementById('canvas2');
+        context2 = canvas2.getContext('2d');
+        canvasOff2 = document.getElementById('canvasOff2');
+        contextOff2 = canvasOff2.getContext('2d');
+
+        video.addEventListener( "canplay", function (e) { //"loadedmetadata" stopped working in chrome 23 wtf?
+            videoW = this.videoWidth;
+            videoH = this.videoHeight;
+            
+            canvasOff.width = videoW;
+            canvasOff.height = videoH;
+
+            canvasOff2.width = canvasW / shrinkAspect;
+            canvasOff2.height = canvasH / shrinkAspect;
+
+            // videoPaintH = videoHeight * 0.75;
+            imgRatio = (videoH * 1.0) / (canvasH * 1.0);
+            imgAspectRatio = (canvasW * 1.0) / (canvasH * 1.0);
+
+            videoPaintY = Math.floor(videoH * 0.2);
+            videoPaintH = Math.floor(videoH * 0.6);
+            videoPaintW = Math.floor(videoPaintH *  imgAspectRatio);
+
+            videoPaintX = Math.floor((videoW / 2) - ( videoPaintW / 2) );
+            
+            console.log(video, videoW, videoH, 'ratio', imgRatio);
+            animate1();
+        }, false );
+        
+      }, function(error) {
+        console.log(error);
+      });
+
+      window.addEventListener('load', function(e){
+        document.getElementById('button').addEventListener('click', function(e){
+          contextOff2.drawImage(canvas, 0,0, canvasOff2.width, canvasOff2.height);
+          imgData = contextOff2.getImageData(0,0,canvasOff2.width, canvasOff2.height);
+          console.log(imgData);
+
+          var offSetX = 100;
+          var offSetY = 10;
+
+          for(var i = 0; i < canvasOff2.height; i++){
+            for(var j = 0; j < canvasOff2.width; j++){
+
+              var r = imgData.data[((i*(imgData.width*4)) + (j*4))];
+              var g = imgData.data[((i*(imgData.width*4)) + (j*4)) + 1];
+              var b = imgData.data[((i*(imgData.width*4)) + (j*4)) + 2];
+              var a = imgData.data[((i*(imgData.width*4)) + (j*4)) + 3];
+
+              var rectColor = 'rgb(' + r + ',' + g + ',' + b + ')'; 
+              // console.log(color);
+              context2.fillStyle = rectColor;
+              context2.fillRect( j* shrinkAspect, i*shrinkAspect, shrinkAspect, shrinkAspect ); 
+
+              if(a > 1){
+                geomId++;
+
+                var marsh = new mwe.box2d.RectangleEntity(
+                  {
+                  id: geomId,
+                  x: 12 + ((j* shrinkAspect)/SCALE),
+                  y: ((i* shrinkAspect)/SCALE),
+                  halfHeight: (shrinkAspect/SCALE)/2,
+                  halfWidth: (shrinkAspect/SCALE)/2,
+                  statidBody: false,
+                  restitution: 0.5,
+                  fillColor: rectColor
+                 }
+                );
+
+                box.addBody(marsh);
+                world[geomId] = marsh;
+            }
+
+            document.getElementById('canvasGame').style.display = '';
+
+              imgCaptured = true;
+
+            } 
+          }
+
+        });
+
+        
+      });
+
+      function animate1() {
+
+        contextOff.drawImage(video,0,0);
+
+        context.save();
+
+        ellipsePath(context, 0,0,canvasW,200);
+
+        context.clip();
+        context.translate(canvasW, 0);
+        context.scale(-1, 1);
+
+        // draw the image
+        // context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
+        context.drawImage(canvasOff, videoPaintX, videoPaintY, videoPaintW, videoPaintH, 0,0,canvasW, canvasH);
+
+        context.restore();
+       
+        if(!imgCaptured){
+          requestAnimationFrame( animate1 );
+        }else{
+
+        }
+
+        
+
+      }
+
+      function ellipsePath(ctx, x, y, w, h) {
+        var kappa = .5522848;
+            ox = (w / 2) * kappa, // control point offset horizontal
+            oy = (h / 2) * kappa, // control point offset vertical
+            xe = x + w,           // x-end
+            ye = y + h,           // y-end
+            xm = x + w / 2,       // x-middle
+            ym = y + h / 2;       // y-middle
+
+        ctx.beginPath();
+        ctx.moveTo(x, ym);
+        ctx.bezierCurveTo(x, ym - oy, xm - ox, y, xm, y);
+        ctx.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym);
+        ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
+        ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
+        ctx.closePath();
+        //ctx.stroke();
+      }
+
+
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,807 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>HTML5 Game APIs</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    <link rel="stylesheet" href="css/jsvm.css">
+    <link rel="stylesheet" href="css/prism-dark.css" />
+    <script src="js/prism-es6.js"></script>
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <style>
+      .orange .state-background {
+        background: #f1622f;
+      }
+    </style>
+
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+        <section>
+            <h2>December 1st</h2>
+            <img src="images/hackphx.png">
+            <a href="http://hackphx.org">hackphx.org</a>
+          </section>
+
+          <section>
+            <img src="images/hsllogo.png">
+          </section>
+
+        <section>
+          <h2>WhomTF ?</h2>
+          <img src="images/luiscartoon3.jpg" style="border-radius: 15px; border: 0;">
+          <h3>Luis Montes</h3>
+          <a href="http://twitter.com/monteslu"><span>@MONTESLU</span></a>
+        </section>
+
+        <section>
+          <h2>WhomTF2 ?</h2>
+          <img src="images/twit_pic_blaine.png" style="border-radius: 15px; border: 0;">
+          <h3>Blaine Bublitz</h3>
+          <a href="http://twitter.com/BlaineBublitz"><span>@BlaineBublitz</span></a>
+        </section>
+
+        <section>
+          <img src="images/icedlogo.png">
+        </section>
+
+        
+      <section>
+
+        <section>
+          <h2>Web based gaming - Last Decade</h2>
+          <img src="images/plugins3.jpg" style="border: 0; border-radius: 0px;" border="0">
+          
+        </section>
+
+        
+
+        <section>
+          <h3>
+          In order to play this you must first install...
+        </h3>
+        <ul>
+          <li>
+            Java Applets
+          </li>
+          <li>
+            Adobe Flash
+          </li>
+          <li>
+            Silverlight
+          </li>
+          <li>
+            Unity 3D
+          </li>
+          
+        </ul>
+        <br>
+            <div style="text-align: center; border: 1px solid black; padding: 4px; background-color: #FFFFBF; color:#444444;">
+            <img src="images/pluginpuzzle2.png"><br>
+            Don't bother clicking here, the plugin isn't available for your Operating System and Hardware
+            </div>
+        </section>
+
+        <section>
+          <h2>Fast Forward a decade</h2>
+          <img src="images/html5-logo-1.jpg" style="border: 0; border-radius: 0px;" border="0">
+          <h2>Evolving Standard</h2>
+        </section>
+
+
+      </section>
+
+
+      <section>
+
+      <section>
+      <h3>Typical Game Engine Functionality</h3>
+               <ul>
+                <li>
+                  Rendering / Animation
+                </li>
+                <li>
+                  Physics
+                </li>
+                <li>
+                  Input
+                </li>
+                <li>
+                  Resource Management
+                </li>
+                <li>
+                  A. I.
+                </li>
+                <li>
+                  Networking
+                </li>
+                <li>
+                  Audio
+                </li>
+                <li>
+                  User Interface
+                </li>
+              </ul>        
+      </section>
+
+      <section>
+        <h2>HTML5 Game Engines</h2>
+        <a href="https://github.com/iceddev/frozen">FrozenJS !</a><br>
+        <a href="https://github.com/bebraw/jswiki/wiki/Game-Engines">Impact, Crafty, Melon, many others</a>
+      </section>
+
+    </section>
+
+
+
+        <section>
+          <section>
+            <h2>Canvas</h2>
+            <h3>Now, we can paint, too!</h3>
+            <img src="images/bob_ross.jpg" />
+          </section>
+
+          <section>
+            <h2>Canvas Creation</h2>
+            <pre class="language-html"><code class="language-html">&lt;canvas id="myCanvas"&gt;&lt;/canvas&gt;</code></pre>
+            Default sizes: height="150" and width="300"
+          </section>
+
+          <section>
+            <h2>Setting our own height &amp; width</h2>
+            <pre class="language-javascript"><code class="language-javascript">
+var canvas = document.getElementById('myCanvas');
+
+canvas.setAttribute('height', '450');
+canvas.setAttribute('width', '450');
+</code></pre>
+            Setting height or width clears canvas
+          </section>
+
+          <section>
+            <h2>But I want to draw!</h2>
+            <pre class="language-javascript"><code class="language-javascript">
+var context = canvas.getContext('2d');
+// Can also get 3d context (WebGL)
+
+context.fillStyle = '#10B7FB';
+// (X, Y, width, height)
+context.fillRect(0, 0, 450, 450);
+
+context.strokeStyle = '#B1E3FE';
+context.lineWidth = 20;
+context.strokeRect(450 / 4, 450 / 4, 450 / 2, 450 / 2);
+</code></pre>
+          </section>
+
+          <section>
+            <a href="demos/canvas1.html" target="_blank">Cheesy Demo #1</a>
+          </section>
+
+          <section>
+            <h2>What about images?!</h2>
+            <pre class="language-javascript"><code class="language-javascript">
+// Load an image
+var img = new Image();
+img.onload = function(){
+  context.drawImage(img, 0, 0);
+};
+img.src = "images/cheese.jpg";
+</code></pre>
+          </section>
+
+          <section>
+            <a href="demos/canvas2.html" target="_blank">Cheesy Demo #2</a>
+          </section>
+
+        </section>
+
+
+
+
+
+        <section>
+          <section>
+            <h3>Game Loop</h3>
+            <img src="images/gameLoop.png" />
+          </section>
+
+          <section>
+            <h3>A simple JS game loop</h3>
+            <pre class="language-javascript"><code class="language-javascript">
+var prevTime;
+function gameLoop() {
+    
+    var currTime = new Date().getTime();
+    elapsedTime = currTime - prevTime;            
+    prevTime = currTime;  
+  
+    handleInput(elapsedTime);
+    update(elapsedTime);
+    draw(context);    
+}
+</code></pre>
+          </section>
+
+        <section>
+            <h3>Running the loop</h3>
+            <pre class="language-javascript"><code class="language-javascript">
+window.requestAnimFrame = (function(){
+  return  window.requestAnimationFrame   || 
+      window.webkitRequestAnimationFrame || 
+      window.mozRequestAnimationFrame    || 
+      window.oRequestAnimationFrame      || 
+      window.msRequestAnimationFrame     || 
+      function(/* function */ callback, /* DOMElement */ element){
+               window.setTimeout(callback, 1000 / 60);
+      };
+})();
+      
+(function animloop(){
+      thisgame.gameLoop();
+      requestAnimFrame(animloop, canvas);
+})();      
+</code></pre>
+          </section>
+
+        <section>
+          <a href="demos/gameLoop/index.html" target="_blank">Animation with a game loop</a>
+        </section>
+
+
+        <section>
+            <h3>Input Management Initializing</h3>
+            <pre class="language-javascript"><code class="language-javascript">
+game.initInput: function(im) {          
+    im.addKeyAction(dojo.keys.LEFT_ARROW);
+    im.addKeyAction(dojo.keys.RIGHT_ARROW);
+    im.addKeyAction(dojo.keys.UP_ARROW);
+    im.addKeyAction(dojo.keys.DOWN_ARROW);
+};    
+</code></pre>
+          </section>
+
+
+        <section>
+            <h3>Using the input</h3>
+            <pre class="language-javascript"><code class="language-javascript">
+handleInput: function(im){
+  /* handle left and right movement */
+  if(im.keyActions[dojo.keys.LEFT_ARROW].isPressed()){
+      sprite.dx = sprite.maxVelocity * -1;
+  }
+  else if(im.keyActions[dojo.keys.RIGHT_ARROW].isPressed()){
+      sprite.dx = sprite.maxVelocity;
+  }
+  else{
+      sprite.dx = 0;
+  }
+  /* handle up and down */
+  ...
+};      
+</code></pre>
+          </section>
+
+
+        <section>
+        <a href="demos/inputManagement/index.html" target="_blank">Input Management Demo</a>
+
+        </section>
+
+    </section>
+
+
+
+        <section>
+          <section>
+            <h2>Web Audio API</h2>
+            <h3>Play Sounds like it's 1995</h3>
+            <img src="images/goes_to_11.jpg" />
+          </section>
+
+          <section>
+            <h2>Get a reference to the Web Audio context</h2>
+            <pre class="language-javascript"><code class="language-javascript">
+var audioContext;
+
+// Try/Catch incase it doesn't exist (FF/IE)
+
+try {
+  audioContext = new webkitAudioContext();
+} catch(e) {
+  alert('Web Audio API is not supported in this browser');
+}
+</code></pre>
+          </section>
+
+          <section>
+            <h2>How are we getting sounds?</h2>
+            <pre class="language-javascript"><code class="language-javascript">
+var soundBuffers = {};
+
+var loadSound = function(name, url) {
+  var request = new XMLHttpRequest();
+  request.open('GET', url, true);
+  // Web Audio is binary (not text) - we need an arraybuffer
+  request.responseType = 'arraybuffer';
+
+  // Decode asynchronously
+  request.onload = function() {
+    if(audioContext){
+      audioContext.decodeAudioData(
+        request.response, function(buffer){
+          soundBuffers[name] = buffer;
+        }, onError);
+    }
+  }
+  request.send();
+};
+</code></pre>
+          </section>
+
+          <section>
+            <h2>Now, let's play the sound!</h2>
+            <pre class="language-javascript"><code class="language-javascript">
+var playSound = function(name) {
+  if(audioContext){
+    // creates a sound source
+    var soundSource = audioContext.createBufferSource();
+    // tell the source which sound to play
+    soundSource.buffer = soundBuffers[name];
+    // connect the source to the context's destination
+    soundSource.connect(audioContext.destination);
+    // play the source now
+    soundSource.noteOn(0);
+  }
+};
+</code></pre>
+          </section>
+
+          <section>
+            <h2>Use the functions</h2>
+            <pre class="language-javascript"><code class="language-javascript">
+loadSound('wee', '/demos/sounds/wee.wav');
+loadSound('yipee', '/demos/sounds/yipee.wav');
+loadSound('yahoo', '/demos/sounds/yahoo.wav');
+loadSound('pop', '/demos/sounds/pop.wav');
+
+playSound('wee');
+playSound('yipee');
+playSound('yahoo');
+playSound('pop');
+</code></pre>
+          </section>
+
+          <section>
+            <a href="demos/webaudio.html" target="_blank">Cheesy Demo #3</a>
+          </section>
+
+          <section>
+            <h2>Can I use?</h2>
+            <img src="images/use_webaudio.png" />
+          </section>
+
+        </section>
+
+
+
+
+        <section>
+          <section>
+            <h2>WebSockets</h2>
+            <img src="images/websockets.png" />
+            <h3>Networking in the browser</h3>
+          </section>
+
+          <section>
+            <h2>Can't we already do networking?</h2>
+            <img src="images/ajax_comet.png" />
+          </section>
+
+          <section>
+            <h2>Use Node.js !</h2>
+            <img src="images/nodejs.png" />
+          </section>
+
+          <section>
+            <h2>Node.js</h2>
+            <img src="images/chrome_v8.png" />
+          </section>
+
+          <section>
+            <h2>Quick Node primer</h2>
+<pre class="language-javascript"><code class="language-javascript">
+var http = require('http');
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Hello World\n');
+}).listen(1337, '127.0.0.1');
+console.log('Server running at http://127.0.0.1:1337/');
+</code></pre>
+          </section>
+
+          <section>
+            <h2>Socket.io server</h2>
+<pre class="language-javascript"><code class="language-javascript">
+var io = require('socket.io').listen(80);
+
+io.sockets.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});
+</code></pre>
+          </section>
+
+            <section>
+            <h2>Socket.io client</h2>
+<pre class="language-html"><code class="language-html">&lt;script src="/socket.io/socket.io.js"&gt;&lt;/script&gt;</code></pre>
+<pre class="language-javascript"><code class="language-javascript">
+ var socket = io.connect('http://localhost');
+  socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('my other event', { my: 'data' });
+  });
+</code></pre>
+          </section>
+
+
+          <section>
+            <h2>Can I use?</h2>
+            <img src="images/use_websockets.png" />
+          </section>
+
+        </section>
+
+
+
+
+
+
+
+
+        <section>
+          <section>
+            <h2>WebRTC</h2>
+            <h3>The final blow to Flash</h3>
+            <img src="images/flash-dead.png">
+          </section>
+
+          <section>
+            <h2>The &lt;video&gt; element</h2>
+            <pre class="language-html"><code class="language-html">&lt;video id="myVideo" autoplay&gt;&lt;/video&gt;</code></pre>
+          </section>
+
+          <section>
+            <h2>The pain of vendor prefixing</h2>
+            <pre class="language-javascript"><code class="language-javascript">
+navigator.getUserMedia = navigator.getUserMedia ||
+                         navigator.webkitGetUserMedia ||
+                         navigator.mozGetUserMedia ||
+                         navigator.msGetUserMedia;
+
+window.URL = window.URL || window.webkitURL;
+</code></pre>
+          </section>
+
+          <section>
+            <h2>Request access to user's camera</h2>
+            <pre class="language-javascript"><code class="language-javascript">
+var video;
+navigator.getUserMedia({
+  video: true
+}, function(localMediaStream) {
+  video = document.getElementById("myVideo");
+  // Create blob url with media stream
+  video.src = window.URL.createObjectURL(localMediaStream);
+}, function(error) {
+  console.log(error);
+});
+</code></pre>
+          </section>
+
+          <section>
+            <h2>Cheesy Demo #4</h2>
+            <a target="_blank" href="demos/webrtc.html">Follow the yellow brick road!</a>
+          </section>
+
+          <section>
+            <h2>Capture something!</h2>
+            <img src="images/gangnam_style.png" />
+          </section>
+
+          <section>
+            <h2>How can we capture crazy things?</h2>
+            <pre class="language-html"><code class="language-html">&lt;canvas id="canvas"&gt;&lt;/canvas&gt;</code></pre>
+            <pre class="language-javascript"><code class="language-javascript">
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+
+context.drawImage(video, 0, 0);
+</code></pre>
+Yes, it is actually that easy!
+          </section>
+
+          <section>
+            <h2>Cheesy Demo #5</h2>
+            <a target="_blank" href="demos/webrtc.html">Gangnam Style!</a>
+          </section>
+
+          <section>
+            <h2>But how do we save it?</h2>
+            <pre class="language-html"><code class="language-html">&lt;img id="save" /&gt;</code></pre>
+            <pre class="language-javascript"><code class="language-javascript">
+// Base64 encoded url of image
+var imgData = canvas.toDataURL();
+
+var img = document.getElementById('save');
+img.src = imgData;
+</code></pre>
+          </section>
+
+          <section>
+            <h2>Cheesy Demo #6</h2>
+            <a target="_blank" href="demos/webrtc.html">Embarrass your friends!</a>
+          </section>
+
+          <section>
+            <h2>Individual pixel data</h2>
+            <pre class="language-javascript"><code class="language-javascript">
+// get the pixels!
+var pixels = context.getImageData(x,y,width,height);
+</code></pre>
+          </section>
+
+          <section>
+            <h2>Cheesiest of the cheesy demos</h2>
+            <a target="_blank" href="demos/webrtc2.html">rtc and pixels</a>
+          </section>
+
+          <section>
+            <h2>Can I use?</h2>
+            <img src="images/use_webrtc.png" />
+          </section>
+
+        </section>
+
+      <section>
+        <section>
+          <h2>WebGL</h2>
+          <h3>Taking things to a whole new dimension</h3>
+          <img src="images/3d_tiger.jpg">
+
+          <aside class="notes">
+            Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you run the speaker notes server.
+          </aside>
+        </section>
+
+        <section>
+          <h2>WebGL is...</h2>
+          <h3>Javascript implementation of the OpenGL ES 2.0 Spec</h3>
+        </section>
+
+        <section>
+          <h2>WebGL is Easy!</h2>
+          <h3>Just read the spec</h3>
+          <a href="https://www.khronos.org/registry/webgl/specs/1.0/">https://www.khronos.org/registry/webgl/specs/1.0</a>
+
+        </section>
+
+        <section>
+        <h2>Use THREE.js</h2>
+        <h3>A scene</h3>
+        <h3>A renderer</h3>
+        <h3>A camera</h3>
+        <h3>An object or two (with materials)</h3>
+        </section>
+
+
+          <section>
+            <h2>Let's see some code</h2>
+           <pre class="language-javascript"><code class="language-javascript">
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize( window.innerWidth, window.innerHeight );
+document.body.appendChild( renderer.domElement );
+
+var camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
+camera.position.z = 400;
+
+var scene = new THREE.Scene();
+
+var geometry = new THREE.CubeGeometry( 200, 200, 200 );
+
+var texture = THREE.ImageUtils.loadTexture('textures/crate.gif');
+texture.anisotropy = renderer.getMaxAnisotropy();
+
+var material = new THREE.MeshBasicMaterial( { map: texture } );
+
+mesh = new THREE.Mesh( geometry, material );
+scene.add( mesh );
+
+//put this in a requestAnimationFrame:
+renderer.render( scene, camera );
+</code></pre>
+          </section>
+
+        <section>
+          <h2>Demo</h2>
+          <a target="_blank" href="demos/webgl_geometry_cube.html">Everyone loves Crates</a>
+        </section>
+
+        <section>
+          <h2>Creepy Demo</h2>
+          <a target="_blank" href="http://mrdoob.github.com/three.js/examples/webgl_materials_bumpmap_skin.html">Uncanny valley</a>
+        </section>        
+
+
+        <section>
+          <h2>Putting things together</h2>
+          <a target="_blank" href="http://www.airtightinteractive.com/demos/js/webcammesh/">WebRTC + WebGL</a>
+        </section>
+
+        <section>
+            <h2>Can I use?</h2>
+            <img src="images/use_webrtc.png" />
+        </section>
+
+      </section>
+
+      <section>
+          <section>
+            <h2>Mobile HTML5 Gaming</h2>
+            <img src="images/old-mobile-phone.jpg" />
+          </section>
+
+          <section>
+            <h2>Everything is working just fine...</h2>
+            <img src="images/you_mad.png" style="border:0;" />
+          </section>
+
+          <section>
+            <h2>iOS</h2>
+            <li>WebAudio !</li>
+            <li>A fast Canvas!</li>
+            <li>... WebGL only for iAds</li>
+          </section>
+
+          <section>
+            <h2>Android</h2>
+            <li>less than 4.0 = "browser"</li>
+            <li>Chrome is better, but missing things</li>
+            <li>Release 24 showing promise</li>
+          </section>
+
+          <section>
+            <h2>Others</h2>
+            <li>Firefox on android has WebGL!</li>
+            <li>Bowser has WebRTC!</li>
+            <li>BB10 & Window mobile could get interesting.</li>
+          </section>
+
+      </section>
+
+
+      <section>
+          <h2>Other HTML5 topics</h2>
+          <ul>
+            <li>Web Workers</li>
+            <li>Device Orientation</li>
+            <li>Fullscreen</li>
+            <li>Mouse Lock</li>
+            <li>Gamepad API</li>
+          </ul>
+        </section>
+
+
+
+        <section>
+          <section>
+            <h2>Monetization</h2>
+            <img src="images/monetization.jpg" />
+          </section>
+
+          <section>
+            <h2>Web app stores</h2>
+            <ul>
+              <li><a href="https://chrome.google.com/webstore/detail/simple-pool-game/acjijhekaonkmkedfdabbageicfhhlgo?utm_source=chrome-ntp-icon">Chrome Web Store</a></li>
+              <li><a href="https://marketplace.firefox.com/">Firefox Marektplace</a></li>
+              <li><a href="https://marketplace.firefox.com/">Blackberry App World</a></li>
+              <li><a href="http://windows.microsoft.com/en-US/windows-8/apps">Apps for Windows 8</a></li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Venture Capital</h2>
+            <ul>
+              <li>Spaceport.io ($M, undisclosed)</li>
+              <li>Game Closure ($12M)</li>
+              <li>Goko ($8M)</li>
+              <li>Artillery ($2.5M)</li>
+              <li>Moblyng ($10M & bankrupt)</li>
+            </ul>
+            <br><br>
+            <h4>(Slide stolen form @cykod)</h4>
+          </section>
+
+
+
+        </section>
+
+
+
+        <section>
+          <h2>Some Resources</h2>
+          <ul>
+            <li><a href="https://github.com/iceddev/desertjs_html5">This Source + Demos</a></li>
+            <li><a href="http://html5rocks.com/">HTML5 ROCKS!</a></li>
+            <li><a href="https://github.com/mrdoob/three.js">THREE.js</a></li>
+            <li><a href="http://www.chromeexperiments.com">Chrome Experiments</a></li>
+            <li><a href="https://caniuse.com">Can I use?</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>THE END</h1>
+          <h3><a href="http://twitter.com/iceddev">By @IcedDev</a></h3>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/linear(2d)
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/highlight.js', async: true, callback: function() { window.hljs.initHighlightingOnLoad(); } },
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'lib/js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'lib/js/data-markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/zoom-js/zoom.js', condition: function() { return !!document.body.classList; } },
+          { src: '/socket.io/socket.io.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
+          { src: 'plugin/speakernotes/client.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>

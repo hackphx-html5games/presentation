@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.js" djConfig="baseUrl: '../javascripts/', modulePaths: {mwe: 'mwe'} "></script>
+        <script src="../javascripts/mwe/Animation.js" type="text/javascript"></script>
+        <script src="../javascripts/mwe/Sprite.js" type="text/javascript"></script>
+	<script src="../javascripts/mwe/GameCore.js" type="text/javascript"></script>
+        <script>
+         
+          var sprite = {img:new Image(),
+        		  		x:0,y:0, dx:0.05, dy: 0.05};
+          
+          var game = new mwe.GameCore({
+  			canvasId: 'myCanvas',
+  			update : function(elapsedTime){
+  				sprite.x += sprite.dx * elapsedTime;
+  				sprite.y += sprite.dy * elapsedTime;
+  			},
+  			draw: function(context){
+  				  context.fillStyle = "#dd4814"; 
+		          context.fillRect(0,0,this.canvas.width,this.canvas.height);		          
+		          context.drawImage(sprite.img,sprite.x,sprite.y);
+  			}
+  		});
+           
+          dojo.ready(function(){
+            dojo.connect(dojo.byId('startButton'),'onclick',this,function(){
+            	dojo.connect(sprite.img,'onload',function(){
+                	game.run();
+            	});
+            	sprite.img.src = 'images/dcc12.png';
+            });
+          });
+            
+        </script>
+    </head>
+    <body>
+        <canvas id='myCanvas' width='300' height='300' ></canvas>
+        <script type='text/javascript'>  
+          
+        </script>
+        <button id="startButton">Start</button>
+    </body>
+</html>

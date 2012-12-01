@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.js" djConfig="baseUrl: '../javascripts/', modulePaths: {mwe: 'mwe'} "></script>
+
+        
+        <script>
+        dojo.require('mwe.GameCore');
+        dojo.require('mwe.Sprite');
+        dojo.require('mwe.ResourceManager');
+        dojo.require('mwe.GameAction');
+        dojo.require('mwe.InputManager');
+        
+        
+        
+   
+        var sprite = {img: new Image(),        		  		
+		        x:100,y:100, dx:0, dy: 0,
+		        maxVelocity: 0.5};	  
+        	  
+	        dojo.ready(function(){
+	        	
+	        	
+	            dojo.connect(dojo.byId('startButton'),'onclick',this,function(){
+	            	dojo.connect(sprite.img,'onload',function(){
+	            		
+	            		
+
+	              
+	    		          var game = new mwe.GameCore({
+	    		  			canvasId: 'myCanvas',
+	    		  			update : function(elapsedTime){
+	    		  				sprite.x += sprite.dx * elapsedTime;
+	    		  				sprite.y += sprite.dy * elapsedTime;
+	    		  			},
+	    		  			draw: function(context){
+	    		  				context.clearRect(0,0,this.canvas.width,this.canvas.height);		          
+	    				        context.drawImage(sprite.img,sprite.x,sprite.y);
+	    		  			},
+	    		  			initInput: function(im) {  			  
+	    		  		        
+	    		  				im.addKeyAction(dojo.keys.LEFT_ARROW);
+	    		  		        im.addKeyAction(dojo.keys.RIGHT_ARROW);
+	    		  		        im.addKeyAction(dojo.keys.UP_ARROW);
+	    		  		        im.addKeyAction(dojo.keys.DOWN_ARROW);
+	    		  		        
+	    		  		    },
+	    		  		    handleInput: function(im){
+	    		  		    	if(im.keyActions[dojo.keys.LEFT_ARROW].isPressed()){
+	    		  					sprite.dx = sprite.maxVelocity * -1;
+	    		  				}
+	    		  				else if(im.keyActions[dojo.keys.RIGHT_ARROW].isPressed()){
+	    		  					sprite.dx = sprite.maxVelocity;
+	    		  				}
+	    		  				else{
+	    		  					sprite.dx = 0;
+	    		  				}
+	    		
+	    		  				if(im.keyActions[dojo.keys.UP_ARROW].isPressed()){
+	    		  					sprite.dy = sprite.maxVelocity * -1;	
+	    		  				}
+	    		  				else if(im.keyActions[dojo.keys.DOWN_ARROW].isPressed()){
+	    		  					sprite.dy = sprite.maxVelocity;
+	    		  				}
+	    		  				else{
+	    		  					sprite.dy = 0;
+	    		  				}
+	    		  		    }
+	    		  		});
+	            		
+	            		
+	            		
+	            		
+	                	game.run();
+	            	});
+	            	sprite.img.src = 'images/dcc.png';
+	            });
+	          
+          });
+            
+        </script>
+        
+    </head>
+    <body>
+        <canvas id='myCanvas' width='300' height='300' style="background-color: #dd4814;"></canvas>
+        <script type='text/javascript'>  
+          
+        </script>
+        <button id="startButton">Start</button>
+    </body>
+</html>

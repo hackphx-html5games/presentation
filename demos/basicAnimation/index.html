@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <script src="../javascripts/dojo-release-1.6.1/dojo/dojo.js"></script>
+        <script>
+                       
+           function animate(){
+            
+        	   var img = new Image();
+               dojo.connect(img,'onload',function(){
+                   var canvas = dojo.byId('myCanvas'); 
+                   var context = canvas.getContext('2d');
+                   for(var i = 0; i < 250; i++){
+                	   context.fillStyle = "#000044"; 
+     		          context.fillRect(0,0,canvas.width,canvas.height);		          
+     		          context.drawImage(img,i,i);
+     		      }
+               });
+               img.src = 'images/dojo_white.png';
+          }
+          
+          dojo.ready(function(){
+            dojo.connect(dojo.byId('startButton'),'onclick',this,function(){
+                animate();
+            });
+          });
+            
+        </script>
+    </head>
+    <body>
+        <canvas id='myCanvas' width='300' height='300' ></canvas>
+        <script type='text/javascript'>  
+          
+        </script>
+        <button id="startButton">Start</button>
+    </body>
+</html>
